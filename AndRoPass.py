@@ -46,13 +46,13 @@ def main():
 
     try:
         decompiler.apk_tool_decompile()
-    except DecompileException:
-        # TODO handle Decompile Exception
-        print("Error")
-        pass
+    except DecompileException as e:
+        cp.pr("red", str(e))
+        exit(0)
     static_scanner = StaticScan(decompiler.apk_decompile_output_path)
     static_scanner.start_scanner()
     print('Done')
+
 
 if __name__ == "__main__":
     main()

@@ -1,9 +1,6 @@
-from imp import IMP_HOOK
-from multiprocessing.spawn import old_main_modules
 from subprocess import PIPE, Popen
 from os.path import join, isdir, exists
 from os import sep, mkdir, remove
-from typing import Tuple, List
 from .Exception import DecompileException
 from utils.ColorPrint import ColorPrint as cp
 
@@ -13,7 +10,16 @@ class Decompile:
         self.apk_file_path = apk_file_path
         self.apktool_bin_path = apktool_bin_path
         self.base_dir_path = base_dir_path
-        self.apk_decompile_output_path = ""
+        self.apk_decompile_output_path = join(self.base_dir_path, "tmp",
+                                              self.apk_file_path.split(sep)[-1].split(".")[0])
+        self.apk_name = self.apk_file_path.split(sep)[-1].split(".")[0]
+        self.apktool_decompile_command_set = {
+            "Apktool Decompile Including Resources":
+                [
+                    'java', '-jar', self.apktool_bin_path, 'd', self.apk_file_path,
+                    "-o", self.apk_decompile_output_path, '-f'
+                ],
+        }
 
     def apk_tool_decompile(self) -> bool:
         """
@@ -23,38 +29,31 @@ class Decompile:
             (None)
 
         """
+
+        # Create tmp dir if not exists
         if not isdir(join(self.base_dir_path, "tmp")):
             mkdir(join(self.base_dir_path, "tmp"))
-        cp.pr("yellow", "[+] Decompiling {} - Try 1".format(self.apk_file_path.split(sep)[-1].split(".")[0]))
-        self.apk_decompile_output_path = join(self.base_dir_path, "tmp",
-                                              self.apk_file_path.split(sep)[-1].split(".")[0])
+
+        # Check apk decompile dir existence
         if exists(self.apk_decompile_output_path):
-            # TODO use old decompiled fir
             cp.pr("red", f"{self.apk_decompile_output_path} exists, delete and continue? [Y/n]: ")
             user_input = input()
-            if user_input.lower() == "y":
-                try:
-                    remove(self.apk_decompile_output_path)
-                except PermissionError:
-                    print("Permission denied, run with higher privilege or delete manually.")
-                    return False
-            elif  user_input.lower() == "n":
+            if user_input.lower() == "n":
                 return True
             else:
-                return False
-        apktool_cmd_try1 = [
-            'java', '-jar', self.apktool_bin_path, 'd', self.apk_file_path,
-            "-o", self.apk_decompile_output_path, '-f'
-        ]
-        stdout, stderr = self.call_os_command(apktool_cmd_try1)
-        if not self.check_for_exception(stdout) or not self.check_for_exception(stderr):
-            raise DecompileException()
-        cp.pr("yellow", "[+] Seems no error for {} - Try 1".format(self.apk_file_path.split(sep)[-1].split(".")[0]))
+                self.remove_apk_decompile_dir()
+
+        # Loop in apktool de-compile command set
+        for apktool_command in self.apktool_decompile_command_set:
+            cp.pr("yellow", f"[+] Decompiling `{self.apk_name}` - {apktool_command}")
+
+            stdout, stderr = self.call_os_command(self.apktool_decompile_command_set[apktool_command])
+            if not self.check_for_exception(stdout) or not self.check_for_exception(stderr):
+                raise DecompileException(f"[-] Error in Decompiling -  {apktool_command}")
 
     @staticmethod
     def call_os_command(cmd_list: list) -> tuple:
         """
-
         Args:
             cmd_list (list): Commands list to run in OS call
 
@@ -85,3 +84,9 @@ class Decompile:
                 if line.split(":")[0][-1] != "I":
                     return False
         return True
+
+    def remove_apk_decompile_dir(self):
+        try:
+            remove(self.apk_decompile_output_path)
+        except PermissionError:
+            raise DecompileException("Permission denied, run with higher privilege or delete manually.")
