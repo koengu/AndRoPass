@@ -18,24 +18,24 @@ class ColorPrint:
         if color == "red":
             try:
                 print(Fore.RED + str(input_text))
-                print(Style.RESET_ALL)
+                print(Style.RESET_ALL, end='')
             except:
                 print(input_text)
         elif color == "yellow":
             try:
                 print(Fore.YELLOW + str(input_text))
-                print(Style.RESET_ALL)
+                print(Style.RESET_ALL, end='')
             except:
                 print(input_text)
         elif color == "blue":
             try:
                 print(Fore.BLUE + str(input_text))
-                print(Style.RESET_ALL)
+                print(Style.RESET_ALL, end='')
             except:
                 print(input_text)
         else:
             try:
                 print(Fore.WHITE + str(input_text))
-                print(Style.RESET_ALL)
+                print(Style.RESET_ALL, end='')
             except:
                 print(input_text)
