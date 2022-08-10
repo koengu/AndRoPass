@@ -21,16 +21,20 @@ https://github.com/koengu/AndRoPass
 BASE_DIR = dirname(abspath(__file__))
 
 
-def main():
-    cp.pr('blue', DES)
+def argument_catcher():
     my_parser = ArgumentParser(
         prog='AndRoPass', description='Android Root Detection Bypass')
     my_parser.add_argument('--apk', '-a',
                            type=str,
                            required=True,
                            help='APK full path')
-    apk_path = my_parser.parse_args().apk
-    apk_file = File(apk_path, BASE_DIR)
+    return my_parser.parse_args().apk
+
+
+def main():
+    cp.pr('blue', DES)
+    apk_file_path = argument_catcher()
+    apk_file = File(apk_file_path, BASE_DIR)
     if not apk_file.apk_exist():
         cp.pr("red", "[-] Apk File Not Fount")
         return False
