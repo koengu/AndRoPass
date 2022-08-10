@@ -1,5 +1,5 @@
 
-![Logo](https://github.com/koengu/AndRoPass/raw/main/utils/AndropasslogoNew.png)
+![Logo](https://github.com/koengu/AndRoPass/raw/main/utils/resource/AndropasslogoNew.png)
 
 
 #  AndRoPass
@@ -27,7 +27,7 @@ Install AndRoPass like below:
 ```
 ## Screenshots
 
-![App Screenshot](https://github.com/koengu/AndRoPass/raw/main/utils/screenshot.png)
+![App Screenshot](https://github.com/koengu/AndRoPass/raw/main/utils/resource/screenshot.png)
 
 
 #  Help
