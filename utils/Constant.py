@@ -85,6 +85,7 @@ class Constant:
     ]
 
     all = [
+        "test-keys",
         "bin/su",
         "busybox",
         "Superuser",
