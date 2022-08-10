@@ -38,6 +38,8 @@ class Decompile:
                 except PermissionError:
                     print("Permission denied, run with higher privilege or delete manually.")
                     return False
+            elif  user_input.lower() == "n":
+                return True
             else:
                 return False
         apktool_cmd_try1 = [

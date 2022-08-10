@@ -6,6 +6,7 @@ from utils.RequirementCheck import RequirementCheck
 from argparse import ArgumentParser
 from sys import exit
 from utils.Exception import DecompileException
+from utils.StaticScan import StaticScan
 
 DES = """
  █████╗ ███╗  ██╗██████╗ ██████╗  █████╗ ██████╗  █████╗  ██████╗ ██████╗
@@ -49,7 +50,9 @@ def main():
         # TODO handle Decompile Exception
         print("Error")
         pass
-
+    static_scanner = StaticScan(decompiler.apk_decompile_output_path)
+    static_scanner.start_scanner()
+    print('Done')
 
 if __name__ == "__main__":
     main()
