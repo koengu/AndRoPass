@@ -39,23 +39,24 @@ def main():
         cp.pr("red", "[-] Apk File Not Fount")
         return False
 
+    # Requirement Check Process
     req_status = RequirementCheck(BASE_DIR)
     if not req_status.check_all():
         for error in req_status.errors:
             cp.pr("red", "[-] {error}".format(error=error))
         exit(0)
 
-    req_status.check_apktool()
+    # Decompile Process
     decompiler = Decompile(apk_file.apk_path, req_status.apktool_bin_path, BASE_DIR)
-
     try:
         decompiler.apk_tool_decompile()
     except DecompileException as e:
         cp.pr("red", str(e))
         exit(0)
+
+    # Static Scan Process
     static_scanner = StaticScan(decompiler.apk_decompile_output_path)
     static_scanner.start_scanner()
-    print('Done')
 
 
 if __name__ == "__main__":
