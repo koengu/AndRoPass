@@ -9,7 +9,7 @@ class StaticScan:
     def __init__(self, apk_decompile_output_path: str):
         self.apk_decompile_output_path = apk_decompile_output_path
 
-    def start_scanner(self):
+    def scanner(self):
         self.smali_finder()
 
     def smali_finder(self):

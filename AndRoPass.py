@@ -5,7 +5,7 @@ from utils.ColorPrint import ColorPrint as cp
 from utils.RequirementCheck import RequirementCheck
 from argparse import ArgumentParser
 from sys import exit
-from utils.Exception import DecompileException
+from utils.Exception import DecompileException, RecompileException
 from utils.StaticScan import StaticScan
 
 DES = """
@@ -55,8 +55,19 @@ def main():
         exit(0)
 
     # Static Scan Process
-    static_scanner = StaticScan(decompiler.apk_decompile_output_path)
-    static_scanner.start_scanner()
+    try:
+        static_scanner = StaticScan(decompiler.apk_decompile_output_path)
+        static_scanner.scanner()
+    except Exception as e:
+        cp.pr('red', "[-] Unknown error in static scanner.")
+
+    # reCompile Process
+    try:
+        decompiler.apk_tool_recompile()
+    except RecompileException as e:
+        cp.pr('red', e)
+
+    # Sign Process
 
 
 if __name__ == "__main__":
