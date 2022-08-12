@@ -5,8 +5,9 @@ from utils.ColorPrint import ColorPrint as cp
 from utils.RequirementCheck import RequirementCheck
 from argparse import ArgumentParser
 from sys import exit
-from utils.Exception import DecompileException, RecompileException
+from utils.Exception import DecompileException, RecompileException, SignException
 from utils.StaticScan import StaticScan
+from utils.Sign import Sign
 
 DES = """
  █████╗ ███╗  ██╗██████╗ ██████╗  █████╗ ██████╗  █████╗  ██████╗ ██████╗
@@ -65,9 +66,16 @@ def main():
     try:
         decompiler.apk_tool_recompile()
     except RecompileException as e:
-        cp.pr('red', e)
+        cp.pr('red', str(e))
 
     # Sign Process
+    signer = Sign(apk_file.apk_path, req_status.uber_apk_signer_bin_path, decompiler.apk_recompile_file_path, BASE_DIR)
+    try:
+        signer.sign()
+    except SignException as e:
+        cp.pr('reb', str(e))
+
+    cp.pr('blue', f'[+] Finished, Output: {signer.signed_apk_file_path}')
 
 
 if __name__ == "__main__":

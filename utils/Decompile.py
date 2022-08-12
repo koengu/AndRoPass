@@ -1,8 +1,8 @@
-from subprocess import PIPE, Popen
 from os.path import join, isdir, exists
 from os import sep, mkdir, remove
 from .Exception import DecompileException, RecompileException
 from utils.ColorPrint import ColorPrint as cp
+from .Commander import call_os_command
 
 
 class Decompile:
@@ -13,6 +13,7 @@ class Decompile:
         self.apk_decompile_output_path = join(self.base_dir_path, "tmp",
                                               self.apk_file_path.split(sep)[-1].split(".")[0])
         self.apk_name = self.apk_file_path.split(sep)[-1].split(".")[0]
+        self.apk_recompile_file_path = self.apk_decompile_output_path + '_bypass.apk'
         self.apktool_decompile_command_set = {
             "Apktool Decompile Including Resources":
                 [
@@ -25,7 +26,7 @@ class Decompile:
             "Apktool Build":
                 [
                     'java', '-jar', self.apktool_bin_path, 'b', self.apk_decompile_output_path,
-                    "-o", self.apk_decompile_output_path + '_bypass.apk', '-f'
+                    "-o", self.apk_recompile_file_path, '-f'
                 ]
         }
 
@@ -55,7 +56,7 @@ class Decompile:
         for apktool_command in self.apktool_decompile_command_set:
             cp.pr("yellow", f"[+] Decompiling `{self.apk_name}` - {apktool_command}")
 
-            stdout, stderr = self.call_os_command(self.apktool_decompile_command_set[apktool_command])
+            stdout, stderr = call_os_command(self.apktool_decompile_command_set[apktool_command])
             if not self.check_for_exception(stdout) or not self.check_for_exception(stderr):
                 raise DecompileException(f"[-] Error in Decompiling -  {apktool_command}")
 
@@ -70,25 +71,9 @@ class Decompile:
         for apktool_command in self.apktool_recompile_command_set:
             cp.pr("yellow", f"[+] Recompiling `{self.apk_name}` - {apktool_command}")
 
-            stdout, stderr = self.call_os_command(self.apktool_recompile_command_set[apktool_command])
+            stdout, stderr = call_os_command(self.apktool_recompile_command_set[apktool_command])
             if not self.check_for_exception(stdout) or not self.check_for_exception(stderr):
                 raise RecompileException(f"[-] Error in Recompiling -  {apktool_command}")
-
-    @staticmethod
-    def call_os_command(cmd_list: list) -> tuple:
-        """
-        Args:
-            cmd_list (list): Commands list to run in OS call
-
-        Returns:
-            (tuple): OS call output split by new lines
-
-        """
-        process = Popen(cmd_list,
-                        stdout=PIPE,
-                        stderr=PIPE)
-        stdout, stderr = process.communicate()
-        return str(stdout).split("\\n"), str(stderr).split("\\n")
 
     @staticmethod
     def check_for_exception(apktool_output: list) -> bool:

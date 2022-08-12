@@ -5,13 +5,16 @@ from os.path import join, isdir
 
 class RequirementCheck:
 
-    def __init__(self, base_dir_name : str) -> None:
+    def __init__(self, base_dir_name: str) -> None:
+        self.uber_apk_signer_list = []
         self.java_version = None
         self.errors = []
         self.base_dir_name = base_dir_name
         self.apktool_path = join(self.base_dir_name, "utils", "files", "apktool")
+        self.uber_apk_signer_path = join(self.base_dir_name, "utils", "files", "uber_apk_signer")
         self.apktool_bin_list = []
         self.apktool_bin_path = str()
+        self.uber_apk_signer_bin_path = str()
 
     def check_all(self) -> bool:
         """
@@ -29,8 +32,13 @@ class RequirementCheck:
                 "ApkTool is not in utils/files/apktool directory. \n    Download last Version and place it in "
                 "utils/files/apktool directory and try again.\n    "
                 "https://bitbucket.org/iBotPeaches/apktool/downloads/")
-        if self.errors:
-            return False
+        if not self.check_uber_apk_signer():
+            self.errors.append(
+                "Uber Apk Signer is not in utils/files/uber_apk_signer directory. \n    Download last Version and place it in "
+                "utils/files/uber_apk_signer directory and try again.\n    "
+                "https://github.com/patrickfav/uber-apk-signer/releases/tag/v1.2.1")
+            if self.errors:
+                return False
         else:
             return True
 
@@ -53,6 +61,27 @@ class RequirementCheck:
                 self.apktool_bin_list.sort()
                 self.apktool_bin_path = join(
                     self.apktool_path, self.apktool_bin_list[-1])
+                return True
+
+    def check_uber_apk_signer(self) -> bool:
+        """
+        Check uber_apk_signer is installed
+            Returns:
+                Bool of uber_apk_signer installed
+
+        """
+        if not isdir(self.uber_apk_signer_path):
+            return False
+        else:
+            for uber_apk_signer_bin in listdir(self.uber_apk_signer_path):
+                if uber_apk_signer_bin.endswith(".jar"):
+                    self.uber_apk_signer_list.append(uber_apk_signer_bin)
+            if not self.uber_apk_signer_list:
+                return False
+            else:
+                self.uber_apk_signer_list.sort()
+                self.uber_apk_signer_bin_path = join(
+                    self.uber_apk_signer_path, self.uber_apk_signer_list[-1])
                 return True
 
     def check_java_installed(self):
