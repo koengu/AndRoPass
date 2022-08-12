@@ -5,7 +5,11 @@ from utils.ColorPrint import ColorPrint as cp
 from .Commander import call_os_command
 
 
-class Decompile:
+class Compile:
+    """
+    Performs Decompile and Recompile of APK file
+    """
+
     def __init__(self, apk_file_path: str, apktool_bin_path: str, base_dir_path: str) -> None:
         self.apk_file_path = apk_file_path
         self.apktool_bin_path = apktool_bin_path
@@ -58,11 +62,14 @@ class Decompile:
 
             stdout, stderr = call_os_command(self.apktool_decompile_command_set[apktool_command])
             if not self.check_for_exception(stdout) or not self.check_for_exception(stderr):
+                # TODO Perform another decompile command, delete decompiled files and run another command-set
                 raise DecompileException(f"[-] Error in Decompiling -  {apktool_command}")
+            else:
+                return True
 
-    def apk_tool_recompile(self):
+    def apk_tool_recompile(self) -> bool:
         """
-        reCompile APK file
+        Recompile APK file
 
         Returns:
             (None)
@@ -74,6 +81,8 @@ class Decompile:
             stdout, stderr = call_os_command(self.apktool_recompile_command_set[apktool_command])
             if not self.check_for_exception(stdout) or not self.check_for_exception(stderr):
                 raise RecompileException(f"[-] Error in Recompiling -  {apktool_command}")
+            else:
+                return True
 
     @staticmethod
     def check_for_exception(apktool_output: list) -> bool:
@@ -94,6 +103,11 @@ class Decompile:
         return True
 
     def remove_apk_decompile_dir(self):
+        """
+        Remove apk decompiled directory
+        Returns:
+            (None)
+        """
         try:
             remove(self.apk_decompile_output_path)
         except PermissionError:

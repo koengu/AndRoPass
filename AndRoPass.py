@@ -1,5 +1,5 @@
 from os.path import abspath, dirname
-from utils.Decompile import Decompile
+from utils.Compile import Compile
 from utils.File import File
 from utils.ColorPrint import ColorPrint as cp
 from utils.RequirementCheck import RequirementCheck
@@ -10,12 +10,12 @@ from utils.StaticScan import StaticScan
 from utils.Sign import Sign
 
 DES = """
- █████╗ ███╗  ██╗██████╗ ██████╗  █████╗ ██████╗  █████╗  ██████╗ ██████╗
-██╔══██╗████╗ ██║██╔══██╗██╔══██╗██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔════╝
-███████║██╔██╗██║██║  ██║██████╔╝██║  ██║██████╔╝███████║╚█████╗ ╚█████╗ 
-██╔══██║██║╚████║██║  ██║██╔══██╗██║  ██║██╔═══╝ ██╔══██║ ╚═══██╗ ╚═══██╗
-██║  ██║██║ ╚███║██████╔╝██║  ██║╚█████╔╝██║     ██║  ██║██████╔╝██████╔╝
-╚═╝  ╚═╝╚═╝  ╚══╝╚═════╝ ╚═╝  ╚═╝ ╚════╝ ╚═╝     ╚═╝  ╚═╝╚═════╝ ╚═════╝ 
+ █████╗ ███╗   ██╗██████╗ ██████╗  ██████╗ ██████╗  █████╗ ███████╗███████╗
+██╔══██╗████╗  ██║██╔══██╗██╔══██╗██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔════╝
+███████║██╔██╗ ██║██║  ██║██████╔╝██║   ██║██████╔╝███████║███████╗███████╗
+██╔══██║██║╚██╗██║██║  ██║██╔══██╗██║   ██║██╔═══╝ ██╔══██║╚════██║╚════██║
+██║  ██║██║ ╚████║██████╔╝██║  ██║╚██████╔╝██║     ██║  ██║███████║███████║
+╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝
 https://github.com/koengu/AndRoPass                 
 """
 
@@ -24,7 +24,7 @@ BASE_DIR = dirname(abspath(__file__))
 
 def argument_catcher():
     my_parser = ArgumentParser(
-        prog='AndRoPass', description='Android Root Detection Bypass')
+        prog='AndRoPass', description='Android Root Detection Bypass Tool')
     my_parser.add_argument('--apk', '-a',
                            type=str,
                            required=True,
@@ -48,7 +48,7 @@ def main():
         exit(0)
 
     # Decompile Process
-    decompiler = Decompile(apk_file.apk_path, req_status.apktool_bin_path, BASE_DIR)
+    decompiler = Compile(apk_file.apk_path, req_status.apktool_bin_path, BASE_DIR)
     try:
         decompiler.apk_tool_decompile()
     except DecompileException as e:

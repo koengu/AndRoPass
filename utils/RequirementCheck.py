@@ -4,6 +4,9 @@ from os.path import join, isdir
 
 
 class RequirementCheck:
+    """
+    Check all requirements os AndRoPass to run
+    """
 
     def __init__(self, base_dir_name: str) -> None:
         self.uber_apk_signer_list = []
@@ -45,8 +48,8 @@ class RequirementCheck:
     def check_apktool(self) -> bool:
         """
         Check apktool is installed
-            Returns:
-                Bool of apktool installed
+        Returns:
+            (bool): Bool of apktool installed
 
         """
         if not isdir(self.apktool_path):
@@ -66,8 +69,8 @@ class RequirementCheck:
     def check_uber_apk_signer(self) -> bool:
         """
         Check uber_apk_signer is installed
-            Returns:
-                Bool of uber_apk_signer installed
+        Returns:
+            (bool): Bool of uber_apk_signer installed
 
         """
         if not isdir(self.uber_apk_signer_path):
@@ -84,12 +87,11 @@ class RequirementCheck:
                     self.uber_apk_signer_path, self.uber_apk_signer_list[-1])
                 return True
 
-    def check_java_installed(self):
+    def check_java_installed(self) -> bool:
         """
-         Check apktool is installed
-
-            Returns:
-                Bool of apktool installed
+        Check apktool is installed
+        Returns:
+            (bool): Bool of apktool installed
 
         """
         try:
@@ -108,11 +110,11 @@ class RequirementCheck:
         except TypeError as e:
             return False
 
-    def get_java_version(self):
+    def get_java_version(self) -> str:
         """
         Returns installed java version
-            Returns:
-                Str of java version
+        Returns:
+            (str): Str of java version
 
         """
         try:

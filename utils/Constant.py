@@ -1,4 +1,8 @@
 class Constant:
+    """
+    Takes cares of all constant value
+    """
+
     binary_su = ["bin/su", ]
     binary_busybox = ["busybox", ]
     super_user_apk = ["Superuser", ]

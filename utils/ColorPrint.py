@@ -2,6 +2,10 @@ from colorama import Fore, Style
 
 
 class ColorPrint:
+    """
+    Prints colorful messages
+    """
+
     @staticmethod
     def pr(color: str, input_text: str) -> None:
         """

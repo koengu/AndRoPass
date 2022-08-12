@@ -2,7 +2,10 @@ from os.path import exists, join
 
 
 class File:
-    def __init__(self, apk_path : str, base_dir_name : str) -> None:
+    """
+    File-level functionality of Apk File
+    """
+    def __init__(self, apk_path: str, base_dir_name: str) -> None:
         self.apk_path = apk_path
         self.apktool_path = str()
         self.base_dir_name = base_dir_name
