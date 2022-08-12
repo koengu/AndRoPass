@@ -5,7 +5,7 @@
 #  AndRoPass
 
 
-Android Root Detection Bypass Tool.
+A tool that helps bypass Root Detection in Android Application. AndRoPass repackage an APK file and bypass Root Detection mechanism. The output Apk file is signed and zip alignined.
 
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
