@@ -1,5 +1,6 @@
 from os.path import join, isdir, exists
 from os import sep, mkdir, remove
+from shutil import rmtree
 from .Exception import DecompileException, RecompileException
 from utils.ColorPrint import ColorPrint as cp
 from .Commander import call_os_command
@@ -22,6 +23,11 @@ class Compile:
             "Apk Decompile Including Resources":
                 [
                     'java', '-jar', self.apktool_bin_path, 'd', self.apk_file_path,
+                    "-o", self.apk_decompile_output_path, '-f'
+                ],
+            "Apk Decompile Excluding Resources":
+                [
+                    'java', '-jar', self.apktool_bin_path, 'd', '-r',  self.apk_file_path,
                     "-o", self.apk_decompile_output_path, '-f'
                 ],
         }
@@ -62,10 +68,10 @@ class Compile:
 
             stdout, stderr = call_os_command(self.apktool_decompile_command_set[apktool_command])
             if not self.check_for_exception(stdout) or not self.check_for_exception(stderr):
-                # TODO Perform another decompile command, delete decompiled files and run another command-set
-                raise DecompileException(f"[-] Error in Decompiling -  {apktool_command}")
+                self.remove_apk_decompile_dir()
             else:
                 return True
+            raise DecompileException('[-] Unable to Decompile Apk')
 
     def apk_tool_recompile(self) -> bool:
         """
@@ -111,6 +117,6 @@ class Compile:
             (None)
         """
         try:
-            remove(self.apk_decompile_output_path)
+            rmtree(self.apk_decompile_output_path)
         except PermissionError:
             raise DecompileException("Permission denied, run with higher privilege or delete manually.")
