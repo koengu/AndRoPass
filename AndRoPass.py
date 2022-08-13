@@ -24,7 +24,7 @@ BASE_DIR = dirname(abspath(__file__))
 
 def argument_catcher():
     my_parser = ArgumentParser(
-        prog='AndRoPass', description='Android Root Detection Bypass Tool')
+        prog='AndRoPass', description='Android Root and Emulator Detection Bypass Tool')
     my_parser.add_argument('--apk', '-a',
                            type=str,
                            required=True,
