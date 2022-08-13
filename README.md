@@ -39,7 +39,11 @@ Install AndRoPass like below:
 ![App Screenshot](https://github.com/koengu/AndRoPass/raw/main/utils/resource/screenshot.png)
 
 
-#  Help
+## RootBeer Bypass
+AndRoPass can fully bypass [RootBeer](https://github.com/scottyab/rootbeer) detection mechanism like below:
+![RootBeerBypass](https://github.com/koengu/AndRoPass/raw/main/utils/resource/rootbeer.png)
+
+##  Help
 
 
 Send your Apk file which AndRoPass was unable to bypass root detection mechanism to [Email](mailto:koengu@protonmail.com).
