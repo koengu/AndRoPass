@@ -2,7 +2,7 @@ from os import walk
 from os.path import join
 from re import sub as find_and_replace
 from utils.Constant import Constant
-
+from .ColorPrint import ColorPrint as cp
 
 class StaticScan:
     """
@@ -17,6 +17,7 @@ class StaticScan:
         Returns:
             (None)
         """
+        cp.pr('yellow', '[+] Analysing Source Code')
         self.smali_finder()
 
     def smali_finder(self) -> None:
@@ -62,4 +63,5 @@ class StaticScan:
             (str): manipulated pattern
 
         """
-        return "x" + pattern[1:]
+
+        return pattern[0] + "XoX" + pattern[2:]

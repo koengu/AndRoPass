@@ -80,6 +80,8 @@ class Compile:
 
             stdout, stderr = call_os_command(self.apktool_recompile_command_set[apktool_command])
             if not self.check_for_exception(stdout) or not self.check_for_exception(stderr):
+                print(stderr)
+                print(stdout)
                 raise RecompileException(f"[-] Error in Recompiling -  {apktool_command}")
             else:
                 return True

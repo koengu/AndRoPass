@@ -89,6 +89,14 @@ class Constant:
     ]
 
     all = [
+        '"su"',
+        '"which"',
+        '"PATH"',
+        "magisk",
+        "getprop",
+        '"mount"',
+        "ro.debuggable",
+        "ro.secure",
         "test-keys",
         "bin/su",
         "busybox",
@@ -100,6 +108,7 @@ class Constant:
         "com.thirdparty.superuser",
         "com.yellowes.su",
         "com.topjohnwu.magisk",
+        "com.topjohnwu",
         "com.kingroot.kinguser",
         "com.kingo.root",
         "com.smedialink.oneclickroot",
