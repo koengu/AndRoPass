@@ -37,6 +37,11 @@ class Compile:
                 [
                     'java', '-jar', self.apktool_bin_path, 'b', self.apk_decompile_output_path,
                     "-o", self.apk_recompile_file_path, '-f'
+                ],
+            "Apk Recompile 2":
+                [
+                    'java', '-jar', self.apktool_bin_path, 'b', '--use-aapt2', self.apk_decompile_output_path,
+                    "-o", self.apk_recompile_file_path, '-f'
                 ]
         }
 
@@ -86,9 +91,8 @@ class Compile:
 
             stdout, stderr = call_os_command(self.apktool_recompile_command_set[apktool_command])
             if not self.check_for_exception(stdout) or not self.check_for_exception(stderr):
-                print(stderr)
-                print(stdout)
-                raise RecompileException(f"[-] Error in Recompiling -  {apktool_command}")
+                pass
+                #raise RecompileException(f"[-] Error in Recompiling -  {apktool_command}")
             else:
                 return True
 
