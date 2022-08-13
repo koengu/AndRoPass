@@ -26,7 +26,7 @@ class Sign:
         Returns:
             (None)
         """
-        cp.pr('yellow', f"[+] Signing `{self.apk_file_path}` using Uber Apk Signer")
+        cp.pr('yellow', f"[+] Signing `{self.apk_file_path}`")
         stdout, stderr = call_os_command(self.sign_command)
         if not self.check_for_exception(stdout) or not self.check_for_exception(stderr):
             raise SignException(f"[-] Error in Singing APK - {self.sign_command}")

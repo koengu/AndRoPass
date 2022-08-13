@@ -19,7 +19,7 @@ class Compile:
         self.apk_name = self.apk_file_path.split(sep)[-1].split(".")[0]
         self.apk_recompile_file_path = self.apk_decompile_output_path + '_bypass.apk'
         self.apktool_decompile_command_set = {
-            "Apktool Decompile Including Resources":
+            "Apk Decompile Including Resources":
                 [
                     'java', '-jar', self.apktool_bin_path, 'd', self.apk_file_path,
                     "-o", self.apk_decompile_output_path, '-f'
@@ -27,7 +27,7 @@ class Compile:
         }
 
         self.apktool_recompile_command_set = {
-            "Apktool Build":
+            "Apk Recompile":
                 [
                     'java', '-jar', self.apktool_bin_path, 'b', self.apk_decompile_output_path,
                     "-o", self.apk_recompile_file_path, '-f'
