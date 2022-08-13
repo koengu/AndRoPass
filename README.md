@@ -12,7 +12,7 @@
 #  AndRoPass
 
 
-A tool that helps bypass Root and Emulator Detection in Android Application. AndRoPass repackage an APK file and bypass Root and Emulator Detection mechanism. The output Apk file is signed and zip alignined.
+A tool that helps bypass **Root** and **Emulator** Detection in Android Application. AndRoPass repackage an APK file and bypass Root and Emulator Detection mechanism. The output Apk file is signed and zip alignined.
 
 
 ## Requirements
